@@ -31,13 +31,13 @@ def whatsapp_webhook():
     message = data.get("query", {}).get("message", "").strip()
     
     print(f"\n[INCOMING WHATSAPP] From: {sender} | Msg: {message}")
-
-    # 1. 🛡️ BLOCKLIST CHECK (Hamare SQLite database se)
+    
+    # 1. BLOCKLIST CHECK (Hamare SQLite database se)
     if db.is_number_blocked(sender):
         print(f"[BYPASS ENFORCED] Ignoring {sender}. No AI reply.")
         return jsonify({"replies": []})
         
-    # 2. 🧠 GENERATE PERSONALIZED JARVIS REPLY
+    # 2. GENERATE PERSONALIZED JARVIS REPLY
     try:
         fav_lang = db.get_preference("language") or "Hinglish"
         fav_subj = db.get_preference("favorite_subject") or "Cybersecurity"
@@ -55,10 +55,13 @@ def whatsapp_webhook():
         db.save_chat(f"WA_{sender}", message)
         db.save_chat("JARVIS_WA", jarvis_reply)
         
+        # 🔥 YE LINE ADD KAR DI GAYI HAI TAASI BINA ERROR KE REPLY WHATSAPP PAR JAYE 🔥
+        return jsonify({"replies": [{"message": jarvis_reply}]})
+        
     except Exception as e:
         # Ye line hume batayegi ki asli error kahan aa raha hai
         print(f"❌ JARVIS CRASHED DUE TO: {e}")
-        return jsonify({"replies": [{"message": "Sir, J.A.R.V.I.S. here. Mere system cores abhi ek priority update par hain..."}]})
+        return jsonify({"replies": [{"message": "Sir, J.A.R.V.I.S. here. Mere system cores abhi ek priority update par hain. Main aapse thodi der mein baat karta hoon!"}]})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
