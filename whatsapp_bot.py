@@ -16,7 +16,13 @@ db = JARVISDatabase()
 # Asli key yahan se hata do, isko khali string ya placeholder banao
 API_KEY = os.environ.get("GEMINI_API_KEY") or "PLACEHOLDER_DO_NOT_PASTE_REAL_KEY_HERE"
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+# 1. Google se saare available models ki list mangwao aur print karo
+for m in genai.list_models():
+    if 'generateContent' in m.supported_generation_methods:
+        print(f"✅ GOOGLE MENU: {m.name}")
+
+# 2. Abhi ke liye ek naya fallback try karte hain
+model = genai.GenerativeModel('gemini-1.0-pro')
 
 @app.route('/', methods=['GET'])
 def home():
