@@ -16,7 +16,7 @@ db = JARVISDatabase()
 # Asli key yahan se hata do, isko khali string ya placeholder banao
 API_KEY = os.environ.get("GEMINI_API_KEY") or "PLACEHOLDER_DO_NOT_PASTE_REAL_KEY_HERE"
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-pro')
 
 @app.route('/', methods=['GET'])
 def home():
