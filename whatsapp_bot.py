@@ -54,13 +54,10 @@ def whatsapp_webhook():
         db.save_chat(f"WA_{sender}", message)
         db.save_chat("JARVIS_WA", jarvis_reply)
         
-        return jsonify({"replies": [{"message": jarvis_reply}]})
-        
     except Exception as e:
-        print(f"[API RESOURCE EXHAUSTED OR ERROR]: {e}")
-        # 🔥 SMART FALLBACK: Agar API block hai toh bot ye automated smart response dega aur server chalta rahega!
-        fallback_reply = "Sir, J.A.R.V.I.S. here. Mere system cores abhi ek priority update par hain. Main aapse thodi der mein baat karta hoon!"
-        return jsonify({"replies": [{"message": fallback_reply}]})
+        # Ye line hume batayegi ki asli error kahan aa raha hai
+        print(f"❌ JARVIS CRASHED DUE TO: {e}")
+        return jsonify({"replies": [{"message": "Sir, J.A.R.V.I.S. here. Mere system cores abhi ek priority update par hain..."}]})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
